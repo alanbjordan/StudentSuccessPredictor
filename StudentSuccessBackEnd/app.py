@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 
 # Import Blueprints
-from routes.auth_routes import auth_bp
+from routes.all_routes import all_routes_bp
 
 # Create the application instance
 app = create_app()
@@ -50,7 +50,7 @@ def remove_session(exception=None):
         t = log_with_timing(t, "[GLOBAL TEARDOWN_REQUEST] No session found.")
 
 # Registering Blueprints
-app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(all_routes_bp, url_prefix="/api")
 
 
 # Main function to run the application
