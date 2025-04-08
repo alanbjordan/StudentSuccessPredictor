@@ -19,7 +19,7 @@ def create_app():
     db.init_app(app)
     bcrypt.init_app(app)
 
-    # Setup CORS configuration
+    # Setup CORS configurations
     allowed_origins = os.getenv("CORS_ORIGINS")
 
 
