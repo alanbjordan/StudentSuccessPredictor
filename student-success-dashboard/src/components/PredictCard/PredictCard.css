@@ -93,3 +93,11 @@
     color: #007bff;
   }
   
+  .warning {
+    border: 2px solid #ff9800; /* or any color for warning indication */
+  }
+  .range-info {
+    font-size: 0.8rem;
+    color: #555;
+  }
+  
