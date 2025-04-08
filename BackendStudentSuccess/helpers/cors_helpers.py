@@ -61,7 +61,7 @@ def pre_authorized_cors_preflight(func):
 
             # Create response with appropriate CORS headers
             response = jsonify({"message": "CORS preflight handled"})
-            response.headers["Access-Control-Allow-Origin"] = Config.CORS_ORIGINS
+            response.headers["Access-Control-Allow-Origin"] = 'https://alanbjordan.github.io'
             # IMPORTANT: Now includes Authorization header
             response.headers["Access-Control-Allow-Headers"] = "Content-Type, userUUID, Authorization"
             response.headers["Access-Control-Allow-Methods"] = allowed_methods
