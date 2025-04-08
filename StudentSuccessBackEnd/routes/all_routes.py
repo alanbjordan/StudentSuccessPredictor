@@ -1,14 +1,11 @@
 # routes/all_routes.py
 
 # Importing necessary libraries
-import io
-import os
-from config import Config
-from datetime import datetime
-from flask import Blueprint, jsonify, request, g
+from flask import Blueprint, jsonify, request
+from helpers.llm_utils import generate_llm_natural_output
 from helpers.cors_helpers import pre_authorized_cors_preflight
 from helpers.data_loading_helpers import load_csv_to_dataframe
-
+from helpers.plain_language_utils import generate_plain_language_summary
 # Blueprint for all routes
 all_routes_bp = Blueprint('all_routes', __name__)
 
@@ -18,7 +15,9 @@ all_routes_bp = Blueprint('all_routes', __name__)
 def upload_file():
     """
     Endpoint to receive a file upload (CSV) containing student data.
-    Returns a success message along with the basic DataFrame info.
+    It loads the data into a Pandas DataFrame, generates basic statistics
+    via the DataFrame's describe() method, converts those stats into a plain language 
+    summary, and sends the result back to the frontend.
     """
     if 'file' not in request.files:
         return jsonify({'error': 'No file part in the request'}), 400
@@ -26,17 +25,26 @@ def upload_file():
     if file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    # Read the file into a DataFrame safely using our helper
+    # Load the CSV into a DataFrame using our helper
     df = load_csv_to_dataframe(file)
     if df is None:
         return jsonify({'error': 'Failed to process the file. Ensure it is a valid CSV.'}), 400
 
-    # For debugging/demonstration purposes, we return the DataFrame's head and column names.
-    result = {
-        'columns': list(df.columns),
-        'head': df.head(5).to_dict(orient='records')
-    }
-    return jsonify({'message': 'File successfully ingested and processed', 'result': result}), 200
+    # Generate statistical summary of the DataFrame
+    stats_df = df.describe()  # This provides statistics for numeric columns
+    # Convert the DataFrame summary into a dictionary
+    stats_dict = stats_df.to_dict()
+    
+    # Generate a plain language summary from the statistics
+    plain_summary = generate_plain_language_summary(stats_dict)
+
+    # Use the LLM to refine and improve the plain language summary
+    refined_summary = generate_llm_natural_output(plain_summary)
+
+    return jsonify({
+        'message': 'File successfully ingested and processed',
+        'refined_summary': refined_summary
+    }), 200
 
 
 # Prediction Endpoint

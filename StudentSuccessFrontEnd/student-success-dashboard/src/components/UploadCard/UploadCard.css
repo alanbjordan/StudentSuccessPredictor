@@ -48,3 +48,17 @@
     margin-bottom: 16px;
   }
   
+/* Styling for the file input */
+.data-preview {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.data-preview div {
+  margin-bottom: 8px;
+}
+
+.data-preview strong {
+  color: #555;
+}

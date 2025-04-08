@@ -1,6 +1,7 @@
 // src/components/UploadCard/UploadCard.jsx
 import React, { useState } from 'react';
-import Modal from './Modal'; // Import the Modal component
+import Modal from './Modal'; // Modal component remains unchanged
+import ReactMarkdown from 'react-markdown';
 import './UploadCard.css'; // Optional CSS for UploadCard styling
 
 // Import the helper function from your API utilities
@@ -11,9 +12,7 @@ const UploadCard = () => {
   const [uploadResponse, setUploadResponse] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  const handleFileChange = (e) => setFile(e.target.files[0]);
 
   const handleFileUpload = async (e) => {
     e.preventDefault();
@@ -58,8 +57,12 @@ const UploadCard = () => {
       {modalOpen && (
         <Modal onClose={closeModal}>
           <h3>Data Preview</h3>
-          <pre>{JSON.stringify(uploadResponse, null, 2)}</pre>
-          {/* Optionally, add an additional "Process Data" button or other content */}
+          {/* Render the refined summary using react-markdown if available */}
+          {uploadResponse && uploadResponse.refined_summary ? (
+            <ReactMarkdown>{uploadResponse.refined_summary}</ReactMarkdown>
+          ) : (
+            <pre>{JSON.stringify(uploadResponse, null, 2)}</pre>
+          )}
         </Modal>
       )}
     </section>
