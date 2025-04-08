@@ -125,7 +125,7 @@ def generate_prediction_report(prediction_data):
     )
     
     response = client.responses.create(
-        model="gpt-4.5-preview",
+        model="gpt-4o",
         input=prompt
     )
     refined_report = response.output_text
