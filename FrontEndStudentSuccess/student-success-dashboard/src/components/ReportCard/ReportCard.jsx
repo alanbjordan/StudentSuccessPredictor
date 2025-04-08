@@ -1,39 +1,45 @@
 // src/components/ReportCard.jsx
-import React, { useState } from 'react';
-import axios from 'axios';
-import './ReportCard.css'; // Optional CSS for ReportCard styling
+import React, { useState, useEffect } from 'react';
+import { generateReport } from '../../utils/api';
+import ReactMarkdown from 'react-markdown';
+import './ReportCard.css';
 
-const ReportCard = () => {
+const ReportCard = ({ predictionData }) => {
   const [report, setReport] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleGetReport = async () => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get('http://localhost:5000/report');
-      setReport(res.data.report);
-    } catch (error) {
-      console.error("Report error:", error);
-      setReport("Failed to retrieve report. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+  useEffect(() => {
+    const fetchReport = async () => {
+      if (!predictionData) return;
+      setIsLoading(true);
+      try {
+        const res = await generateReport(predictionData);
+        setReport(res.data.report);
+      } catch (error) {
+        console.error("Report error:", error);
+        setReport("Failed to retrieve report. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchReport();
+  }, [predictionData]);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const handlePrint = () => {
+    window.print();
   };
 
   return (
     <section className="report-card">
       <header className="card-header">
-        <h2>Performance Report</h2>
-        <p className="subtitle">Generate a summary of student performance.</p>
+        <h2>Prediction Report</h2>
+        <p className="subtitle">Summary of student prediction with actionable insights.</p>
       </header>
-
-      <button
-        onClick={handleGetReport}
-        className="btn btn-primary"
-        disabled={isLoading}
-      >
-        {isLoading ? "Generating..." : "Generate Report"}
-      </button>
 
       {isLoading && (
         <div className="loading-overlay">
@@ -43,8 +49,33 @@ const ReportCard = () => {
 
       {report && !isLoading && (
         <div className="response-box">
-          <h3>Report</h3>
-          <pre>{report}</pre>
+          <ReactMarkdown>{report}</ReactMarkdown>
+        </div>
+      )}
+
+      <button className="btn btn-primary download-btn" onClick={openModal}>
+        Download Report
+      </button>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h2>Prediction Report</h2>
+              <button className="close-btn" onClick={closeModal}>×</button>
+            </div>
+            <div className="modal-body">
+              <ReactMarkdown>{report}</ReactMarkdown>
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-primary" onClick={handlePrint}>
+                Print Report
+              </button>
+              <button className="btn" onClick={closeModal}>
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </section>

@@ -1,9 +1,9 @@
 // src/components/PredictCard.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
-import './PredictCard.css'; // Optional CSS for PredictCard styling
+import { predictStudent } from '../../utils/api'; // Use the API helper
+import './PredictCard.css';
 
-const PredictCard = () => {
+const PredictCard = ({ setPredictionData }) => {
   const [manualData, setManualData] = useState({
     OnboardingTestScore: '',
     ClassesAttended: '',
@@ -11,7 +11,6 @@ const PredictCard = () => {
     HoursOnPlatform: '',
     ParticipationScore: '',
   });
-  const [predictResponse, setPredictResponse] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleManualChange = (e) => {
@@ -23,11 +22,13 @@ const PredictCard = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/predict', manualData);
-      setPredictResponse(res.data);
+      // Use the utility function to make the API call for prediction.
+      const res = await predictStudent(manualData);
+      // Update the parent's state with the prediction output.
+      setPredictionData(res.data);
     } catch (error) {
       console.error("Prediction error:", error);
-      setPredictResponse({ error: "Prediction failed. Please try again." });
+      setPredictionData({ error: "Prediction failed. Please try again." });
     } finally {
       setIsLoading(false);
     }
@@ -67,13 +68,6 @@ const PredictCard = () => {
       {isLoading && (
         <div className="loading-overlay">
           <span className="loader">Processing...</span>
-        </div>
-      )}
-
-      {predictResponse && !isLoading && (
-        <div className="response-box">
-          <h3>Prediction</h3>
-          <pre>{JSON.stringify(predictResponse, null, 2)}</pre>
         </div>
       )}
     </section>

@@ -40,12 +40,6 @@ const UploadCard = () => {
     }
   };
 
-  // Trigger model training (placeholder action)
-  const handleGenerateIntelligence = async () => {
-    console.log("Generating intelligence (training model)...");
-    alert("Model training triggered! (Placeholder action.)");
-  };
-
   // Reset the entire upload card state and clear the file input field
   const handleReset = () => {
     setFile(null);
@@ -103,9 +97,6 @@ const UploadCard = () => {
           </p>
           {!uploadResponse.error && (
             <div className="action-buttons">
-              <button onClick={handleGenerateIntelligence} className="btn btn-primary">
-                Generate Intelligence
-              </button>
               <button onClick={openModal} className="btn btn-secondary">
                 View Data Summary
               </button>

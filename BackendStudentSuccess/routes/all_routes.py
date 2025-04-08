@@ -6,6 +6,9 @@ from helpers.llm_utils import generate_llm_natural_output
 from helpers.cors_helpers import pre_authorized_cors_preflight
 from helpers.data_loading_helpers import load_csv_to_dataframe
 from helpers.plain_language_utils import generate_plain_language_summary
+import pandas as pd
+from models.logistic_model import model, scaler, kmeans
+from helpers.llm_utils import generate_prediction_report
 # Blueprint for all routes
 all_routes_bp = Blueprint('all_routes', __name__)
 
@@ -47,20 +50,82 @@ def upload_file():
     }), 200
 
 
-# Prediction Endpoint
 @all_routes_bp.route('/predict', methods=['POST'])
 def predict():
     """
     Endpoint to handle predictions.
+    Accepts the following fields:
+    OnboardingTestScore, ClassesAttended, HomeworkSubmissionRate,
+    HoursOnPlatform, ParticipationScore.
+    
+    It assigns a cluster using the scaler and KMeans model,
+    then uses all features (including the computed Cluster) for logistic regression.
     """
+    # Print the raw request data for debugging.
     data = request.get_json()
+    print("Received data:", data)
 
-    # Validate input data
-    if not data or 'input' not in data:
-        return jsonify({"error": "Invalid input data"}), 400
+    # Define required fields (the five features provided by the frontend).
+    required_fields = [
+        "OnboardingTestScore",
+        "ClassesAttended",
+        "HomeworkSubmissionRate",
+        "HoursOnPlatform",
+        "ParticipationScore"
+    ]
 
-    # Perform prediction logic here (dummy response for now)
-    prediction = {"result": "dummy_prediction"}
+    # Check for missing fields.
+    missing_fields = [field for field in required_fields if field not in data]
+    if missing_fields:
+        print("Missing required fields:", missing_fields)
+        return jsonify({"error": f"Missing required fields: {', '.join(missing_fields)}"}), 400
+
+    # Convert inputs to floats.
+    try:
+        features = [float(data[field]) for field in required_fields]
+        print("Parsed features:", features)
+    except ValueError as ve:
+        print("ValueError in converting inputs:", ve)
+        return jsonify({"error": "One or more input fields contain invalid numeric data."}), 400
+
+    # --- Assign the Cluster ---
+    try:
+        # Create a DataFrame from the input features.
+        cluster_df = pd.DataFrame([dict(zip(required_fields, features))])
+        print("DataFrame for clustering:", cluster_df)
+
+        # Scale the inputs using the loaded scaler.
+        features_scaled = scaler.transform(cluster_df)
+        print("Scaled features:", features_scaled)
+
+        # Predict cluster using the loaded KMeans model.
+        cluster_label = int(kmeans.predict(features_scaled)[0])
+        print("Predicted cluster:", cluster_label)
+    except Exception as e:
+        print("Exception during clustering:", e)
+        return jsonify({"error": f"Cluster assignment error: {str(e)}"}), 500
+
+    # --- Prepare features for logistic regression ---
+    complete_features = features + [cluster_label]
+    full_feature_columns = required_fields + ["Cluster"]
+    features_df = pd.DataFrame([dict(zip(full_feature_columns, complete_features))])
+    print("DataFrame for logistic regression prediction:", features_df)
+
+    # --- Run prediction ---
+    try:
+        prediction_value = model.predict(features_df)
+        print("Raw prediction value:", prediction_value)
+    except Exception as e:
+        print("Exception during prediction:", e)
+        return jsonify({"error": f"Prediction error: {str(e)}"}), 500
+
+    # Format the prediction for JSON serialization.
+    prediction = {
+        "result": prediction_value.tolist() if hasattr(prediction_value, "tolist") else prediction_value,
+        "input_features": complete_features,
+        "predicted_cluster": cluster_label
+    }
+    print("Final prediction output:", prediction)
 
     return jsonify(prediction), 200
 
@@ -69,14 +134,23 @@ def predict():
 def report():
     """
     Endpoint to handle reporting.
+    Accepts prediction data from the client, uses a dedicated LLM prompt via the helper function,
+    and returns a natural language report.
     """
     data = request.get_json()
 
     # Validate input data
-    if not data or 'report' not in data:
-        return jsonify({"error": "Invalid report data"}), 400
+    if not data or 'predictionData' not in data:
+        return jsonify({"error": "Invalid prediction data"}), 400
 
-    # Perform reporting logic here (dummy response for now)
-    report_result = {"status": "success"}
+    prediction_data = data['predictionData']
 
-    return jsonify(report_result), 200
+    try:
+        # Use the new helper function with its dedicated prompt for prediction reports.
+        refined_report = generate_prediction_report(prediction_data)
+    except Exception as e:
+        return jsonify({"error": f"LLM generation error: {str(e)}"}), 500
+
+    return jsonify({"report": refined_report}), 200
+
+
