@@ -50,6 +50,7 @@ def upload_file():
     }), 200
 
 
+@pre_authorized_cors_preflight
 @all_routes_bp.route('/predict', methods=['POST'])
 def predict():
     """
@@ -129,6 +130,7 @@ def predict():
 
     return jsonify(prediction), 200
 
+@pre_authorized_cors_preflight
 # Report Endpoint
 @all_routes_bp.route('/report', methods=['POST'])
 def report():

@@ -1,6 +1,6 @@
 {
   "name": "student-success-dashboard",
-  "homepage": "https://alanbjordan.github.io/studentsuccesspredictor",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
