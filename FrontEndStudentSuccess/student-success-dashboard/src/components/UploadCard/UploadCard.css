@@ -1,50 +1,169 @@
 /* Modal overlay covers the screen */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Modal content container */
-  .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 600px;
-    width: 90%;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  }
-  
-  /* Basic styling for buttons and text */
-  .btn {
-    padding: 8px 16px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .btn.primary {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .btn.secondary {
-    background-color: #6c757d;
-    color: #fff;
-  }
-  
-  /* Optional spacing for the card */
-  .card {
-    border: 1px solid #ddd;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 16px;
-  }
-  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10000; /* Ensure modal appears on top of all other elements */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal content container */
+.modal-content {
+  background: #fff;
+  padding: 24px; /* Slightly more padding for breathing room */
+  border-radius: 8px;
+  max-width: 600px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Softer, deeper shadow */
+}
+
+/* Card styling */
+.upload-card {
+  position: relative; /* For overlay positioning */
+  max-width: 500px; /* Constrain width for better readability */
+  padding: 24px;
+  border: 1px solid #e0e0e0; /* Softer border color */
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background: #fff; /* Ensure consistent background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for depth */
+}
+
+/* Card header */
+.card-header {
+  margin-bottom: 20px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.5rem; /* Consistent heading size */
+  color: #333;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 6px 0 0;
+}
+
+/* Upload form */
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Consistent spacing */
+}
+
+/* Input group */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.file-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.file-input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Basic styling for buttons */
+.btn {
+  padding: 10px 16px; /* Slightly larger for better clickability */
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease; /* Smooth hover effect */
+}
+
+.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #fff;
+}
+
+.btn.primary {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn.primary:hover:not(:disabled) {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.btn.secondary {
+  background-color: #f5f5f5; /* Lighter, neutral secondary button */
+  color: #333;
+}
+
+.btn.secondary:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+/* Overlay during loading */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Loader styling */
+.loader {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #007bff;
+}
+
+/* Upload result */
+.upload-result {
+  margin-top: 20px;
+}
+
+.success-message {
+  font-weight: 500;
+  color: #28a745; /* Green for success */
+}
+
+.success-message.error {
+  color: #dc3545; /* Red for errors */
+}
+
+/* Action buttons */
+.action-buttons {
+  display: flex;
+  gap: 12px; /* Consistent spacing between buttons */
+  margin-top: 16px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+/* Styling for data preview */
+.data-preview {
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.data-preview div {
+  margin-bottom: 8px;
+}
+
+.data-preview strong {
+  color: #555;
+}

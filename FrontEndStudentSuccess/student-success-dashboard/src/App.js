@@ -2,8 +2,8 @@
 import React from 'react';
 import './App.css';
 import UploadCard from './components/UploadCard/UploadCard';
-import PredictCard from './components/PredictCard'; // Existing component
-import ReportCard from './components/ReportCard';   // Existing component
+import PredictCard from './components/PredictCard/PredictCard'; // Existing component
+import ReportCard from './components/ReportCard/ReportCard';   // Existing component
 
 function App() {
   return (
