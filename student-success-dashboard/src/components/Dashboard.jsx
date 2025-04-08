@@ -16,7 +16,6 @@ const Dashboard = () => {
         <p>Track and predict student performance easily</p>
       </header>
       <div className="dashboard-grid">
-        <UploadCard />
         <PredictCard setPredictionData={setPredictionData} />
         <ReportCard predictionData={predictionData} />
       </div>
