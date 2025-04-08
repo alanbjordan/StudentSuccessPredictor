@@ -95,19 +95,7 @@
   background: #2980b9;
 }
 
-.response-box {
-  margin-top: 20px;
-  padding: 15px;
-  background: #f8f9fa;
-  border-radius: 5px;
-  max-height: 200px;
-  overflow-y: auto;
-}
 
-.response-box h3 {
-  margin: 0 0 10px;
-  color: #2c3e50;
-}
 
 pre {
   margin: 0;
