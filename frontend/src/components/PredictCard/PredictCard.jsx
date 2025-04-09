@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { predictStudent } from '../../utils/api'; // Use the API helper
+import { predictStudent } from '../../utils/api';
 import './PredictCard.css';
 
 const PredictCard = ({ setPredictionData }) => {
-  // Define the ranges for each field
   const fieldRanges = {
     OnboardingTestScore: { min: 0, max: 100 },
     ClassesAttended: { min: 0, max: 18 },
@@ -20,6 +19,7 @@ const PredictCard = ({ setPredictionData }) => {
     ParticipationScore: '',
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleManualChange = (e) => {
     const { name, value } = e.target;
@@ -29,14 +29,26 @@ const PredictCard = ({ setPredictionData }) => {
   const handlePredict = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
+
     try {
-      // Use the utility function to make the API call for prediction.
-      const res = await predictStudent(manualData);
-      // Update the parent's state with the prediction output.
-      setPredictionData(res.data);
+      // Validate input ranges
+      for (const [key, value] of Object.entries(manualData)) {
+        const numValue = parseFloat(value);
+        const { min, max } = fieldRanges[key];
+        if (isNaN(numValue) || numValue < min || numValue > max) {
+          throw new Error(`Invalid value for ${key}: ${value}. Must be between ${min} and ${max}.`);
+        }
+      }
+
+      // Fetch prediction
+      const predictionRes = await predictStudent(manualData);
+      console.log("Prediction Data:", predictionRes.data); // Debug
+      setPredictionData(predictionRes.data);
     } catch (error) {
       console.error("Prediction error:", error);
-      setPredictionData({ error: "Prediction failed. Please try again." });
+      setError(error.message || "Prediction failed. Please try again.");
+      setPredictionData({ error: "Prediction failed." });
     } finally {
       setIsLoading(false);
     }
@@ -47,17 +59,16 @@ const PredictCard = ({ setPredictionData }) => {
       <header className="card-header">
         <h2>Student Behavioral Data</h2>
       </header>
-      <p className="subtitle">Enter student data to predict performance.</p> <br></br>
+      <p className="subtitle">Enter student data to predict performance.</p> <br />
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handlePredict} className="predict-form">
         {Object.entries(manualData).map(([key, value]) => {
-          // determine field range details
           const { min, max } = fieldRanges[key] || { min: null, max: null };
           const numericValue = parseFloat(value);
           const isOutOfRange = !isNaN(numericValue) && (numericValue < min || numericValue > max);
 
           return (
             <div className="input-group" key={key}>
-
               <input
                 id={key}
                 type="number"
@@ -69,9 +80,7 @@ const PredictCard = ({ setPredictionData }) => {
                 required
                 disabled={isLoading}
               />
-              <small className="range-info">
-                Allowed Range: {min} - {max}
-              </small>
+              <small className="range-info">Range: {min} - {max}</small>
             </div>
           );
         })}
