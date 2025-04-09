@@ -80,7 +80,9 @@ const PredictCard = ({ setPredictionData }) => {
                 required
                 disabled={isLoading}
               />
-              <small className="range-info">Range: {min} - {max}</small>
+              <small className="range-info">
+                <strong>{key.replace(/([A-Z])/g, ' $1').trim()}:</strong> Range {min} - {max}
+              </small>
             </div>
           );
         })}
