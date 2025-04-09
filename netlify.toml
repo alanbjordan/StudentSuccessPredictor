@@ -1,9 +1,0 @@
-[build]
-  # Change directory into the frontend folder to run commands there
-  base = "student-success-dashboard"
-  
-  # Install dependencies and build the React app
-  command = "npm install && npm run build"
-  
-  # The folder produced by create-react-app is typically "build"
-  publish = "build"
