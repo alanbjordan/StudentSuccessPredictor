@@ -66,30 +66,30 @@ def generate_prediction_report(prediction_data):
             The prediction provided to you is based on early student engagement (first 30 days of participation) and initial onboarding performance. The goal is to predict whether a student is likely to succeed in the online tutoring program, allowing early interventions to improve their outcomes.
 
             Data and Features Explained:
-            You will see these specific features for each student:
+            You will review these specific features for each student:
 
-            Onboarding Test Score: The student's initial entry assessment score upon joining the program (scores typically range from 50 to 95).
+            Onboarding Test Score: The student's initial assessment score upon joining the program (range typically 50% to 95%).
 
-            Classes Attended: Number of classes attended out of 18 possible classes within the first 30 days.
+            Classes Attended: Number of classes attended within the first 30 days (out of 18 total classes).
 
-            Homework Submission Rate: Percentage of homework assignments completed (ranges from 55% to 98%).
+            Homework Submission Rate: Percentage of homework assignments completed (range typically 55% to 98%).
 
-            Hours on Platform: Total hours spent actively engaged on the online learning platform in the first 30 days (ranges from 18 to 47 hours).
+            Hours on Platform: Total hours actively spent on the online learning platform in the first 30 days (range typically 18 to 47 hours).
 
-            Participation Score: Subjective engagement rating assigned by instructors based on active class participation (scale from 3 to 10).
+            Participation Score: Instructor-assigned rating based on active participation (scale 3 to 10).
 
-            Cluster Assignment: Students have been categorized into one of four behavioral groups derived from their engagement patterns:
+            Cluster Assignment: Students have been categorized into four distinct engagement-based groups derived from their behaviors:
 
-            High Achievers: Excellent overall engagement and performance. = Cluster #3
+            Highly Engaged Achievers (Cluster #3): Consistently exceptional performance, very high engagement, and strong motivation.
 
-            Consistent Performers: Strong, reliable engagement and good performance. = Cluster #2
+            Steady Performers (Cluster #2): Solid and dependable engagement with good overall performance, positioned well for success.
 
-            Steady Learners: Moderate engagement, typical steady progress. = Cluster #1
+            Moderately Engaged Learners (Cluster #1): Good academic metrics with room to increase active participation and platform engagement.
 
-            Struggling Learners: Lower engagement, indicating higher risk of poor outcomes. = Cluster #0
+            At-Risk Learners (Cluster #0): Low engagement, attendance, and homework completion, indicating a higher risk of academic difficulties and the need for targeted intervention.
 
             Interpreting the Prediction (Logistic Regression):
-            The student's likelihood of success is predicted using logistic regression. The relative importance (coefficients) of each feature from most influential to least influential in predicting success is as follows:
+            The student's likelihood of success is predicted using logistic regression. The relative importance of features (from most influential to least influential) is:
 
             Homework Submission Rate (most influential)
 
@@ -101,22 +101,22 @@ def generate_prediction_report(prediction_data):
 
             Participation Score
 
-            Cluster Assignment (provides contextual understanding of student behavior type)
+            Cluster Assignment (provides additional context about student behavior)
 
-            Higher values on these metrics (especially homework submission rate and hours on platform) significantly increase the likelihood of student success. Conversely, lower values indicate a higher risk of the student struggling in the program.
+            Higher scores in homework submission, platform engagement, and onboarding test results significantly increase the likelihood of success. Lower values indicate a greater risk of academic difficulty.
 
             Your Task:
-            Given the student’s prediction results and associated metrics, provide a non-technical, professional, and insightful summary that includes:
+            Given the student’s prediction results and engagement metrics, provide a professional, insightful, non-technical summary, including:
 
-            Clear interpretation of the student’s predicted performance (success or at-risk).
+            Clear interpretation of the student's predicted outcome (success or at-risk).
 
-            Identification and explanation of key strengths and areas of concern based on the student's engagement data.
+            Identification and explanation of key strengths and specific areas of concern based on engagement metrics.
 
-            Explanation of how their assigned cluster (behavioral group) provides additional context about their learning behavior and engagement patterns.
+            Do not disucss Contextual insights based on their behavioral cluster, highlighting the implications of their identified engagement profile.
 
-            Actionable recommendations tailored specifically to the student's profile to help improve their likelihood of success, emphasizing the most influential factors (homework submission, platform engagement, etc.).
+            Practical, actionable recommendations explicitly tailored to the student’s identified strengths and concerns, emphasizing the most influential metrics such as homework submission and platform engagement.
 
-            Focus on making your report practical, concise, and helpful for educators and program coordinators. :::: Next I will provide you will the prediction data for a specific student.
+            Your summary should be concise, practical, insightful, and directly useful for educators and program coordinators to guide immediate actions for improving student outcomes.
             Prediction Data:
             {plain_summary}
             :::::: End of Prediction Data

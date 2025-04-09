@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import PredictCard from './PredictCard/PredictCard';
 import ReportCard from './ReportCard/ReportCard';
-//import './Dashboard.css'; // Optional additional Dashboard styling
+import './Dashboard.css'; 
 
 const Dashboard = () => {
   // Manage prediction data in a shared state.
@@ -11,8 +11,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h1>Student Success Predictor</h1>
-        <p>Track and predict student performance easily</p>
+        <h1>Student Performance Navigator</h1>
       </header>
       <div className="dashboard-grid">
         <PredictCard setPredictionData={setPredictionData} />

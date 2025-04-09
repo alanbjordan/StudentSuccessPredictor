@@ -1,10 +1,14 @@
 /* App.css */
+
+.app {
+  background: #000000;
+}
 .dashboard {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: 'Arial', sans-serif;
-  background: #f5f7fa;
+  background: #000000;
   min-height: 100vh;
 }
 
@@ -66,7 +70,7 @@
 }
 
 .input-group label {
-  color: #34495e;
+  color: #ffffff;
   font-weight: 500;
 }
 
