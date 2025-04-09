@@ -11,101 +11,118 @@
   display: flex;
   flex-direction: column;
   height: 613px;
-  }
+}
   
-  .card-header {
-    margin-bottom: 20px;
-  }
+.card-header {
+  margin-bottom: 20px;
+}
   
-  .card-header h2 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #333;
-  }
+.card-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333; /* Consider lightening if contrast needs improving */
+}
   
-  .subtitle {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 6px 0 0;
-  }
+.subtitle {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 6px 0 0;
+}
   
-  .predict-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
+.predict-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
   
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    color: #ffffff;
-  }
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #ffffff;
+}
   
-  .input-label {
-    font-weight: 500;
-    color: #ffffff;
-  }
+.input-label {
+  font-weight: 500;
+  color: #ffffff;
+}
   
-  .input-field {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 100%;
-    box-sizing: border-box;
-  }
+.input-field {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+/* Optional: Add focus effect for better UX */
+.input-field:focus {
+  border-color: #007bff;
+  outline: none;
+}
   
-  .btn {
-    padding: 10px 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: background-color 0.2s ease;
-  }
+.btn {
+  padding: 10px 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
   
-  .btn:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    color: #fff;
-  }
+.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #fff;
+  font-weight: 500; /* Optional: Enhance visual clarity on disabled state */
+  pointer-events: none; /* Prevent any pointer events when disabled */
+}
   
-  .btn.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-    width: 50%;
-    margin: 0 auto;
-    margin-top: auto;
-  }
+.btn.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: auto;
+}
   
-  .btn.btn-primary:hover:not(:disabled) {
-    background-color: #0056b3;
-  }
+.btn.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  color: #666;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
   
-  .loading-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.loader {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #007bff;
+}
   
-  .loader {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #007bff;
-  }
+.warning {
+  border: 2px solid #ff9800; /* or any color for warning indication */
+}
   
-  .warning {
-    border: 2px solid #ff9800; /* or any color for warning indication */
-  }
-  .range-info {
-    font-size: 0.8rem;
-    color: #cfcece;
-  }
-  
+.range-info {
+  font-size: 0.8rem;
+  color: #cfcece;
+}

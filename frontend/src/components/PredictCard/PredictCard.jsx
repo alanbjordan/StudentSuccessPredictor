@@ -7,7 +7,7 @@ const PredictCard = ({ setPredictionData }) => {
     OnboardingTestScore: { min: 0, max: 100 },
     ClassesAttended: { min: 0, max: 18 },
     HomeworkSubmissionRate: { min: 0, max: 100 },
-    HoursOnPlatform: { min: 0, max: 40 },
+    HoursOnPlatform: { min: 0, max: 47 },
     ParticipationScore: { min: 0, max: 10 },
   };
 
@@ -26,13 +26,19 @@ const PredictCard = ({ setPredictionData }) => {
     setManualData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const isFormValid = Object.entries(manualData).every(([key, value]) => {
+    if (value === '') return false;
+    const numericValue = parseFloat(value);
+    const { min, max } = fieldRanges[key];
+    return !isNaN(numericValue) && numericValue >= min && numericValue <= max;
+  });
+  console.log("isFormValid:", isFormValid, "manualData:", manualData);
+
   const handlePredict = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-
     try {
-      // Validate input ranges
       for (const [key, value] of Object.entries(manualData)) {
         const numValue = parseFloat(value);
         const { min, max } = fieldRanges[key];
@@ -40,10 +46,8 @@ const PredictCard = ({ setPredictionData }) => {
           throw new Error(`Invalid value for ${key}: ${value}. Must be between ${min} and ${max}.`);
         }
       }
-
-      // Fetch prediction
       const predictionRes = await predictStudent(manualData);
-      console.log("Prediction Data:", predictionRes.data); // Debug
+      console.log("Prediction Data:", predictionRes.data);
       setPredictionData(predictionRes.data);
     } catch (error) {
       console.error("Prediction error:", error);
@@ -59,13 +63,15 @@ const PredictCard = ({ setPredictionData }) => {
       <header className="card-header">
         <h2>Student Behavioral Data</h2>
       </header>
-      <p className="subtitle">Enter student data to predict performance.</p> <br />
+      <p className="subtitle">Enter student data to predict performance.</p>
+      <br />
       {error && <p className="error-message">{error}</p>}
       <form onSubmit={handlePredict} className="predict-form">
         {Object.entries(manualData).map(([key, value]) => {
           const { min, max } = fieldRanges[key] || { min: null, max: null };
           const numericValue = parseFloat(value);
-          const isOutOfRange = !isNaN(numericValue) && (numericValue < min || numericValue > max);
+          const isOutOfRange =
+            value !== '' && (!isNaN(numericValue) && (numericValue < min || numericValue > max));
 
           return (
             <div className="input-group" key={key}>
@@ -76,21 +82,30 @@ const PredictCard = ({ setPredictionData }) => {
                 value={value}
                 onChange={handleManualChange}
                 placeholder={`${key.replace(/([A-Z])/g, ' $1').trim()}`}
-                className={`file-input ${isOutOfRange ? 'warning' : ''}`}
-                required
+                className={`input-field ${isOutOfRange ? 'warning' : ''}`}
                 disabled={isLoading}
+                required
               />
               <small className="range-info">
                 <strong>{key.replace(/([A-Z])/g, ' $1').trim()}:</strong> Range {min} - {max}
               </small>
+              {isOutOfRange && (
+                <small className="error-message" style={{ color: 'red' }}>
+                  Value must be between {min} and {max}.
+                </small>
+              )}
             </div>
           );
         })}
-        <button type="submit" className="btn btn-primary" disabled={isLoading}>
+        {console.log("Button disabled:", !isFormValid || isLoading)}
+        <button
+          type="submit"
+          className="btn btn-primary"
+          disabled={!isFormValid || isLoading}
+        >
           {isLoading ? "Generating..." : "Generate Report"}
         </button>
       </form>
-
       {isLoading && (
         <div className="loading-overlay">
           <span className="loader">Processing...</span>
