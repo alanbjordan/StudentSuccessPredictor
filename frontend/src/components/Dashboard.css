@@ -1,51 +1,75 @@
 /* Dashboard.css */
 
 .dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background: #000000; /* A light background to help the cards stand out */
-    min-height: 100vh;
-    box-sizing: border-box;
+  /* Center the entire content horizontally and vertically */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical centering */
+  align-items: center;     /* horizontal centering */
+  min-height: 100vh;
+  box-sizing: border-box;
+
+  /* background */
+  background: #000000; 
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.dashboard-header {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  background: #fff;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dashboard-header h1 {
+  color: #2c3e50;
+  margin: 0;
+  font-size: 2.2em;
+}
+
+.dashboard-header p {
+  color: #7f8c8d;
+  margin: 5px 0 0;
+}
+
+/* The grid that holds your two cards side by side on larger screens */
+.dashboard-grid {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+
+  /* 
+     "auto-fit + minmax" ensures:
+       - if there's enough width, show two (or more) columns.
+       - if not, it'll collapse down to just one. 
+  */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* 
+   On smaller screens, 
+   - Move alignment from center to top so content "scrolls" from top down
+   - Possibly shrink header text
+*/
+@media (max-width: 600px) {
+  .dashboard {
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-top: 20px; /* Some breathing room at the top */
   }
-  
-  .dashboard-header {
-    width: 100%;
-    margin-bottom: 20px;
-    text-align: center;
-    padding: 10px 0;
-    background: #fff;
-    border-bottom: 1px solid #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-  
+
   .dashboard-header h1 {
-    margin: 0;
-    font-size: 2rem;
-    color: #333;
+    font-size: 1.5rem;
   }
-  
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-gap: 20px;
-    width: 100%;
-    max-width: 1200px;
-  }
-  
-  /* Optional: Add responsiveness for smaller devices */
-  @media (max-width: 600px) {
-    .dashboard {
-      padding: 10px;
-    }
-  
-    .dashboard-header h1 {
-      font-size: 1.5rem;
-    }
-  
-    .dashboard-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-  
+
+  /* 
+    The grid already collapses to 1 column automatically 
+    because of 'auto-fit, minmax(300px, 1fr)'
+  */
+}
