@@ -1,6 +1,5 @@
 // src/components/Dashboard.jsx
 import React, { useState } from 'react';
-import UploadCard from './UploadCard/UploadCard';
 import PredictCard from './PredictCard/PredictCard';
 import ReportCard from './ReportCard/ReportCard';
 //import './Dashboard.css'; // Optional additional Dashboard styling
