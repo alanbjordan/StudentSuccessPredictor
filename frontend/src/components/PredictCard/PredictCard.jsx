@@ -45,10 +45,9 @@ const PredictCard = ({ setPredictionData }) => {
   return (
     <section className="predict-card">
       <header className="card-header">
-        <h2>Predict Individual Success</h2>
-        <p className="subtitle">Enter student data to predict performance.</p>
+        <h2>Student Behavioral Data</h2>
       </header>
-
+      <p className="subtitle">Enter student data to predict performance.</p> <br></br>
       <form onSubmit={handlePredict} className="predict-form">
         {Object.entries(manualData).map(([key, value]) => {
           // determine field range details
@@ -58,16 +57,14 @@ const PredictCard = ({ setPredictionData }) => {
 
           return (
             <div className="input-group" key={key}>
-              <label htmlFor={key} className="file-label">
-                {key.replace(/([A-Z])/g, ' $1').trim()}
-              </label>
+
               <input
                 id={key}
                 type="number"
                 name={key}
                 value={value}
                 onChange={handleManualChange}
-                placeholder={`Enter ${key.replace(/([A-Z])/g, ' $1').trim()}`}
+                placeholder={`${key.replace(/([A-Z])/g, ' $1').trim()}`}
                 className={`file-input ${isOutOfRange ? 'warning' : ''}`}
                 required
                 disabled={isLoading}
@@ -79,7 +76,7 @@ const PredictCard = ({ setPredictionData }) => {
           );
         })}
         <button type="submit" className="btn btn-primary" disabled={isLoading}>
-          {isLoading ? "Predicting..." : "Predict"}
+          {isLoading ? "Generating..." : "Generate Report"}
         </button>
       </form>
 

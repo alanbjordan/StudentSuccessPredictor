@@ -53,10 +53,12 @@ const ReportCard = ({ predictionData }) => {
         </div>
       )}
 
-      {/* Button to open the modal */}
-      <button className="btn btn-primary download-btn" onClick={openModal}>
-        Download Report
-      </button> 
+      {/* Conditionally render the Download Report button */}
+      {report && !isLoading && (
+        <button className="btn btn-primary download-btn" onClick={openModal}>
+          Download Report
+        </button>
+      )}
 
       {isModalOpen && (
         <div className="modal-overlay">
