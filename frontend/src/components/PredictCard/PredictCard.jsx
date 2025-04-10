@@ -106,6 +106,27 @@ const PredictCard = ({ setPredictionData }) => {
           {isLoading ? "Generating..." : "Generate Report"}
         </button>
       </form>
+      <div className="learn-more-section" style={{ marginTop: '20px', textAlign: 'center' }}>
+        <p>Want to learn more about how this prediction model works?</p>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+          <a
+            href="https://github.com/alanbjordan/EdTechModel/blob/master/predict_student_success.ipynb"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+          >
+            View Model Notebook
+          </a>
+          <a
+            href="https://github.com/alanbjordan/StudentSuccessPredictor"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+          >
+            View Deployment Code
+          </a>
+        </div>
+      </div>
       {isLoading && (
         <div className="loading-overlay">
           <span className="loader">Processing...</span>
