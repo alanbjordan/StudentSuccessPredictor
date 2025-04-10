@@ -126,3 +126,26 @@
   font-size: 0.8rem;
   color: #cfcece;
 }
+
+.btn-secondary {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #6c757d; /* Gray color, adjust as needed */
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  color: white;
+  text-decoration: none;
+}
+
+.learn-more-section p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #ffffff;
+}
