@@ -110,7 +110,7 @@ const PredictCard = ({ setPredictionData }) => {
         <p>Want to learn more about how this prediction model works?</p>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
           <a
-            href="https://github.com/alanbjordan/EdTechModel/blob/master/predict_student_success.ipynb"
+            href="https://github.com/alanbjordan/EdTechModel"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-secondary"
