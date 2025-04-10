@@ -3,7 +3,7 @@
 
 ## **Overview**
 
-This project demonstrates how machine learning can predicting early **student success** in an online education program. The goal is to use onboarding assessment and early participation data from the first 30 days to identify which students are likely to succeed — and which ones may need early intervention.
+This project demonstrates how machine learning can assist in predicting early **student success** in an online education program. The goal is to use onboarding assessment and early participation data from the first 30 days to identify which students are likely to succeed — and which ones may need early intervention.
 
 ---
 
